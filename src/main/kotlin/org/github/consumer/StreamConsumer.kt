@@ -1,6 +1,7 @@
 package org.github.consumer
 
 import org.github.provider.Provider
+import org.github.queue.BufferList
 
 class StreamConsumer(private val from: Provider) : Consumer {
     @Volatile
@@ -16,7 +17,7 @@ class StreamConsumer(private val from: Provider) : Consumer {
                 break
             }
 
-            println(line)
+            BufferList.add(line)
         }
     }
 
