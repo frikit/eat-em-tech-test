@@ -11,31 +11,11 @@ fun main() {
     println("Start application!")
 
     GlobalScope.launch {
-        println("Start reader thread!")
-        val host = "localhost"
-        val port = 8282
-
-        val provider = SocketProvider(host, port)
-
-        try {
-            StreamConsumer(provider).consume()
-        } finally {
-            provider.closeQuietly()
-        }
+        startReaderLogic()
     }
 
     GlobalScope.launch {
-        println("Start queue consumer thread!")
-        while (true) {
-            val times = AtomicInteger()
-            val element = BufferList.getAndRemove()
-            if (element == null && times.get() >= 3) {
-                Thread.sleep(100)
-                times.set(0)
-            }
-
-            if (element != null) println(element)
-        }
+        startConsumerLogic()
     }
 
     //keep coroutines running
@@ -44,4 +24,35 @@ fun main() {
     println("BB!")
     println(BufferList.list.size)
     println(BufferList.list.take(10))
+}
+
+private fun startConsumerLogic() {
+    println("Start queue consumer thread!")
+    while (true) {
+        val element = BufferList.getAndRemove()
+
+        //backpressure
+        val times = AtomicInteger()
+        if (element == null && times.get() >= 3) {
+            Thread.sleep(100)
+            times.set(0)
+        }
+
+        if (element != null)
+            println(element)
+    }
+}
+
+private fun startReaderLogic() {
+    println("Start reader thread!")
+    val host = "localhost"
+    val port = 8282
+
+    val provider = SocketProvider(host, port)
+
+    try {
+        StreamConsumer(provider).consume()
+    } finally {
+        provider.closeQuietly()
+    }
 }
