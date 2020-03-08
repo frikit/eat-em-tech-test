@@ -10,13 +10,13 @@ internal class JsonTransformerServiceTest {
     val market = Market(header, "121", "122", "market lala", true, false)
 
     val json = """
-            {"header":{"msgId":112,"operation":"undo","type":"types","timestamp":1234567890},"eventId":"121","marketId":"122","name":"market lala","displayed":true,"suspended":false}
+            {"header":{"msgId":112,"operation":"undo","type":"types","timestamp":1234567890},"eventId":"121","marketId":"122","name":"market lala","displayed":true,"suspended":false,"outcomes":[]}
     """.trimIndent()
 
     @Test
     fun `map valid object to json`() {
         val actual = JsonTransformerService.transformToJson(market)
-
+        println(actual)
         assert(actual == json) { "Json are not equal!" }
     }
 
