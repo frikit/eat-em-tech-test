@@ -11,7 +11,7 @@ We realise everyone has different levels of skill and experience when it comes t
 #### Basic Tasks
 - [x] Create an app that connects the provider service on the exposed TCP port
 - [x] Transform the proprietary data format into JSON using the field names and data types defined in the provider /types endpoint
-- [ ] Write unit tests
+[~] Write unit tests
 
 #### Intermediate Tasks
 - [x] Save the JSON into a NoSQL store with a document per fixture.
