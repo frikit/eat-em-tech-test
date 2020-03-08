@@ -5,6 +5,8 @@ import kotlinx.coroutines.launch
 import org.github.consumer.StreamConsumer
 import org.github.provider.SocketProvider
 import org.github.queue.BufferList
+import org.github.service.JsonTransformerService
+import org.github.service.TypesTransformerService
 import java.util.concurrent.atomic.AtomicInteger
 
 fun main() {
@@ -29,17 +31,21 @@ fun main() {
 private fun startConsumerLogic() {
     println("Start queue consumer thread!")
     while (true) {
-        val element = BufferList.getAndRemove()
+        val rawLine = BufferList.getAndRemove()
 
         //backpressure
         val times = AtomicInteger()
-        if (element == null && times.get() >= 3) {
+        if (rawLine == null && times.get() >= 3) {
             Thread.sleep(100)
             times.set(0)
         }
 
-        if (element != null)
-            println(element)
+        if (rawLine != null) {
+            println(rawLine)
+            val dataObject = TypesTransformerService.transform(rawLine)
+            val json = JsonTransformerService.transformToJson(dataObject)
+            println(json)
+        }
     }
 }
 
