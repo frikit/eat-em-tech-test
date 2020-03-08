@@ -15,5 +15,12 @@ internal class StreamConsumerTest {
         val expected = 5
         val actual = BufferList.list.size
         assert(actual == expected) { "In git ignore should be $expected lines but found $actual" }
+
+        val actuals = mutableListOf<String?>()
+        while (BufferList.list.isNotEmpty()) {
+            actuals.add(BufferList.getAndRemove())
+        }
+
+        assert(actuals.size == expected) { "In git ignore should be $expected lines but found $actual" }
     }
 }
