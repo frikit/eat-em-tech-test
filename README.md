@@ -15,7 +15,10 @@ We realise everyone has different levels of skill and experience when it comes t
 
 #### Intermediate Tasks
 - [x] Save the JSON into a NoSQL store with a document per fixture.
-- [ ] Each document should contain the event data and the child markets and outcomes for the fixture
+<br>[~] Each document should contain the event data and the child markets 
+and outcomes for the fixture ( Not quite sure what exactly was necessary 
+to do and add a method which return event with all markets and all outcomes
+ of these markets 'org.github.repository.MongoRepository.getEvent')
 
 #### Advanced Tasks
 Imagine that your app has been in use for a while now but the company has decided to start offering more fixtures. This has massively increased the number of packets being received and you have noticed that your NoSQL writes have become a bottleneck causing a packet latency that is too high for your real time data needs.

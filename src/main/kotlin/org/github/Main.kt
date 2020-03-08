@@ -1,6 +1,7 @@
 package org.github
 
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.github.consumer.StreamConsumer
 import org.github.provider.SocketProvider
@@ -22,14 +23,14 @@ fun main() {
     }
 
     //keep coroutines running
-    Thread.sleep(25_000)
+    Thread.sleep(99_000)
 
     println("BB!")
     println(BufferList.list.size)
     println(BufferList.list.take(10))
 }
 
-private fun startConsumerLogic() {
+private suspend fun startConsumerLogic() {
     println("Start queue consumer thread!")
     while (true) {
         val rawLine = BufferList.getAndRemove()
@@ -37,7 +38,7 @@ private fun startConsumerLogic() {
         //backpressure
         val times = AtomicInteger()
         if (rawLine == null && times.get() >= 3) {
-            Thread.sleep(100)
+            delay(100)
             times.set(0)
         }
 
@@ -48,6 +49,10 @@ private fun startConsumerLogic() {
             println(json)
 
             MongoRepository.saveUpdate(dataObject)
+
+//            if (dataObject is Event) {
+//                println(MongoRepository.getEvent(dataObject.eventId))
+//            }
         }
     }
 }

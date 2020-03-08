@@ -12,7 +12,8 @@ data class Event(
     val name: String,
     val startTime: String,
     val displayed: Boolean,
-    val suspended: Boolean
+    val suspended: Boolean,
+    var markets: MutableList<Market> = mutableListOf()
 ) : Types() {
 
     companion object {
@@ -36,7 +37,8 @@ data class Market(
     val marketId: String,
     val name: String,
     val displayed: Boolean,
-    val suspended: Boolean
+    val suspended: Boolean,
+    val outcomes: MutableList<Outcome> = mutableListOf()
 ) : Types() {
 
     companion object {
