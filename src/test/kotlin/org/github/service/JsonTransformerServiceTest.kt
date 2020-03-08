@@ -16,8 +16,6 @@ internal class JsonTransformerServiceTest {
     @Test
     fun `map valid object to json`() {
         val actual = JsonTransformerService.transformToJson(market)
-        println(json)
-        println(actual)
 
         assert(actual == json) { "Json are not equal!" }
     }
