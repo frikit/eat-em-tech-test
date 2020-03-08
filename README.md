@@ -9,12 +9,13 @@ The challenge is to consume and transform the proprietary mock data. The proprie
 We realise everyone has different levels of skill and experience when it comes to development so we have listed different levels of tasks below for you to choose from. If you do not have the time or the knowledge to complete them all then that's ok, we just want to see how you approach the problem and get a feel for how you code.
 
 #### Basic Tasks
-* Create an app that connects the provider service on the exposed TCP port
-* Transform the proprietary data format into JSON using the field names and data types defined in the provider /types endpoint
-* Write unit tests
+- [x] Create an app that connects the provider service on the exposed TCP port
+- [x] Transform the proprietary data format into JSON using the field names and data types defined in the provider /types endpoint
+- [ ] Write unit tests
 
 #### Intermediate Tasks
-* Save the JSON into a NoSQL store with a document per fixture. Each document should contain the event data and the child markets and outcomes for the fixture
+- [x] Save the JSON into a NoSQL store with a document per fixture.
+- [ ] Each document should contain the event data and the child markets and outcomes for the fixture
 
 #### Advanced Tasks
 Imagine that your app has been in use for a while now but the company has decided to start offering more fixtures. This has massively increased the number of packets being received and you have noticed that your NoSQL writes have become a bottleneck causing a packet latency that is too high for your real time data needs.

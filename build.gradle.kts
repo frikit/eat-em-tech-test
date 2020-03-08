@@ -15,6 +15,7 @@ dependencies {
     implementation(kotlin("stdlib-jdk8"))
     implementation("org.jetbrains.kotlinx", "kotlinx-coroutines-core", "1.3.3")
     implementation("com.google.code.gson", "gson", "2.8.6")
+    implementation("org.litote.kmongo:kmongo:3.12.2")
     testImplementation(group = "org.junit.jupiter", name = "junit-jupiter-api", version = "5.5.2")
     testImplementation("org.junit.jupiter:junit-jupiter:5.5.2")
 }

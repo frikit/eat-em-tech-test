@@ -5,6 +5,7 @@ import kotlinx.coroutines.launch
 import org.github.consumer.StreamConsumer
 import org.github.provider.SocketProvider
 import org.github.queue.BufferList
+import org.github.repository.MongoRepository
 import org.github.service.JsonTransformerService
 import org.github.service.TypesTransformerService
 import java.util.concurrent.atomic.AtomicInteger
@@ -45,6 +46,8 @@ private fun startConsumerLogic() {
             val dataObject = TypesTransformerService.transform(rawLine)
             val json = JsonTransformerService.transformToJson(dataObject)
             println(json)
+
+            MongoRepository.saveUpdate(dataObject)
         }
     }
 }
