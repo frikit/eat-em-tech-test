@@ -1,7 +1,6 @@
 package org.github
 
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import org.github.consumer.StreamConsumer
 import org.github.provider.SocketProvider
@@ -9,28 +8,32 @@ import org.github.queue.BufferList
 import org.github.repository.MongoRepository
 import org.github.service.JsonTransformerService
 import org.github.service.TypesTransformerService
+import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicInteger
+import kotlin.system.exitProcess
+
 
 fun main() {
+    val executorService = Executors.newFixedThreadPool(10)
     println("Start application!")
 
-    GlobalScope.launch {
+    val job = GlobalScope.launch {
         startReaderLogic()
     }
 
-    GlobalScope.launch {
+    executorService.submit {
         startConsumerLogic()
     }
 
-    //keep coroutines running
-    Thread.sleep(99_000)
-
-    println("BB!")
-    println(BufferList.list.size)
-    println(BufferList.list.take(10))
+    if (!job.isActive) {
+        println("BB!")
+        println(BufferList.list.size)
+        println(BufferList.list.take(10))
+        exitProcess(0)
+    }
 }
 
-private suspend fun startConsumerLogic() {
+private fun startConsumerLogic() {
     println("Start queue consumer thread!")
     while (true) {
         val rawLine = BufferList.getAndRemove()
@@ -38,7 +41,7 @@ private suspend fun startConsumerLogic() {
         //backpressure
         val times = AtomicInteger()
         if (rawLine == null && times.get() >= 3) {
-            delay(100)
+            Thread.sleep(100)
             times.set(0)
         }
 
